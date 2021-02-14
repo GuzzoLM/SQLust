@@ -11,10 +11,10 @@ fn main() {
         process::exit(1);
     });
 
-    commands::execute_command(&command).unwrap_or_else(|err| {
+    let result = commands::execute_command(&command).unwrap_or_else(|err| {
         println!("Problem executing command. Error: {}", err);
         process::exit(1);
     });
 
-    println!("{:?}", args);
+    println!("{}", result);
 }
