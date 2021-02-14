@@ -25,10 +25,10 @@ pub fn parse_command(args: &[String]) -> Result<Command, String> {
         "CREATE" => {
             let create_command_result = command_create::parse_create_command(&arguments);
             match create_command_result {
-                Err(err) => return Err(err),
+                Err(err) => Err(err),
                 Ok(create_command) => Ok(Command::CreateCommand(create_command)),
             }
         }
-        _ => return Err(format!("Unknown command: {}", command)),
+        _ => Err(format!("Unknown command: {}", command)),
     }
 }

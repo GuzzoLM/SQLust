@@ -10,16 +10,16 @@ pub fn execute_create_command(command: &CreateCommand) -> Result<String, String>
     }
 }
 
-pub fn execute_create_database(target: &String) -> Result<String, String> {
+pub fn execute_create_database(target: &str) -> Result<String, String> {
     println!("Creating database {}...", target);
     match create_database_file(target) {
-        Err(err) => return Err(format!("Error creating database file. Error: {}", err)),
-        Ok(_) => return Ok(format!("Successfully created database {}", target)),
-    };
+        Err(err) => Err(format!("Error creating database file. Error: {}", err)),
+        Ok(_) => Ok(format!("Successfully created database {}", target)),
+    }
 }
 
 pub fn parse_create_command(args: &[String]) -> Result<CreateCommand, String> {
-    if args.len() < 1 {
+    if args.is_empty() {
         return Err(String::from("Target missing on CREATE command"));
     }
 
@@ -32,7 +32,7 @@ pub fn parse_create_command(args: &[String]) -> Result<CreateCommand, String> {
     }
 }
 
-fn create_database_file(target: &String) -> std::io::Result<()> {
+fn create_database_file(target: &str) -> std::io::Result<()> {
     File::create(format!("{}.dbust", target))?;
     Ok(())
 }
