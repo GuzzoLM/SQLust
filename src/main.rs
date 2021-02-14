@@ -1,17 +1,22 @@
 use std::env;
 use std::process;
 
-use sqlust::Command;
+// use sqlust;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let command = Command::new(&args).unwrap_or_else(|err| {
+    let command = sqlust::parse_command(&args[1..]).unwrap_or_else(|err| {
         println!("Problem parsing arguments: {}", err);
         process::exit(1);
     });
 
-    println!("Command: {}, Arguments: {}", command.command, command.arguments[0]);
+    if let sqlust::Command::CreateCommand(create_command) = command {
+        match create_command {
+            sqlust::CreateCommand::CreateDatabase(target) => println!("Create database with target: {}", target),
+            sqlust::CreateCommand::Error(mess) => println!("ERROR: {}", mess),
+        }
+    }
 
     println!("{:?}", args);
 }
