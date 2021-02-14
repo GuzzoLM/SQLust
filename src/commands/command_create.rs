@@ -6,7 +6,7 @@ pub enum CreateCommand {
 
 pub fn execute_create_command(command: &CreateCommand) -> Result<String, String> {
     match command {
-        CreateCommand::CreateDatabase(target) => execute_create_database(target)
+        CreateCommand::CreateDatabase(target) => execute_create_database(target),
     }
 }
 
